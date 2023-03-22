@@ -38,7 +38,37 @@ resource "aws_iam_role" "eventbridge" {
 
   tags = merge({ Name = local.role_name }, var.tags, var.role_tags)
 }
+#########################
+# Eventbridge
+#########################
 
+data "aws_iam_policy_document" "Eventbridge" {
+  count = local.create_role && var.attach_Eventbridge_policy ? 1 : 0
+
+  statement {
+    sid       = "Eventbridge"
+    effect    = "Allow"
+    actions   = ["events:PutEvents"]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "Eventbridge" {
+  count = local.create_role && var.attach_Eventbridge_policy ? 1 : 0
+
+  name   = "${local.role_name}-Eventbridge"
+  policy = data.aws_iam_policy_document.Eventbridge[0].json
+
+  tags = merge({ Name = "${local.role_name}-Eventbridge" }, var.tags)
+}
+
+resource "aws_iam_policy_attachment" "Eventbridge" {
+  count = local.create_role && var.attach_Eventbridge_policy ? 1 : 0
+
+  name       = "${local.role_name}-Eventbridge"
+  roles      = [aws_iam_role.eventbridge[0].name]
+  policy_arn = aws_iam_policy.Eventbridge[0].arn
+}
 #####################
 # Tracing with X-Ray
 #####################
