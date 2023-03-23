@@ -36,7 +36,8 @@ resource "aws_iam_role" "eventbridge" {
   permissions_boundary  = var.role_permissions_boundary
   assume_role_policy    = data.aws_iam_policy_document.assume_role[0].json
 
-  tags = merge({ Name = local.role_name }, var.tags, var.role_tags)
+  #tags = merge({ Name = local.role_name }, var.tags, var.role_tags)
+  tags = var.tags
 }
 #########################
 # Eventbridge
@@ -59,7 +60,8 @@ resource "aws_iam_policy" "Eventbridge" {
   name   = "${local.role_name}-Eventbridge"
   policy = data.aws_iam_policy_document.Eventbridge[0].json
 
-  tags = merge({ Name = "${local.role_name}-Eventbridge" }, var.tags)
+  #tags = merge({ Name = "${local.role_name}-Eventbridge" }, var.tags)
+  tags = var.tags
 }
 
 resource "aws_iam_policy_attachment" "Eventbridge" {
@@ -87,7 +89,8 @@ resource "aws_iam_policy" "tracing" {
   name   = "${local.role_name}-tracing"
   policy = data.aws_iam_policy.tracing[0].policy
 
-  tags = merge({ Name = "${local.role_name}-tracing" }, var.tags)
+  #tags = merge({ Name = "${local.role_name}-tracing" }, var.tags)
+  tags = var.tags
 }
 
 resource "aws_iam_policy_attachment" "tracing" {
@@ -119,7 +122,8 @@ resource "aws_iam_policy" "kinesis" {
   name   = "${local.role_name}-kinesis"
   policy = data.aws_iam_policy_document.kinesis[0].json
 
-  tags = merge({ Name = "${local.role_name}-kinesis" }, var.tags)
+  #tags = merge({ Name = "${local.role_name}-kinesis" }, var.tags)
+  tags = var.tags
 }
 
 resource "aws_iam_policy_attachment" "kinesis" {
@@ -151,7 +155,8 @@ resource "aws_iam_policy" "kinesis_firehose" {
   name   = "${local.role_name}-kinesis-firehose"
   policy = data.aws_iam_policy_document.kinesis_firehose[0].json
 
-  tags = merge({ Name = "${local.role_name}-kinesis-firehose" }, var.tags)
+  #tags = merge({ Name = "${local.role_name}-kinesis-firehose" }, var.tags)
+  tags = var.tags
 }
 
 resource "aws_iam_policy_attachment" "kinesis_firehose" {
@@ -187,7 +192,8 @@ resource "aws_iam_policy" "sqs" {
   name   = "${local.role_name}-sqs"
   policy = data.aws_iam_policy_document.sqs[0].json
 
-  tags = merge({ Name = "${local.role_name}-sqs" }, var.tags)
+  #tags = merge({ Name = "${local.role_name}-sqs" }, var.tags)
+  tags = var.tags
 }
 
 resource "aws_iam_policy_attachment" "sqs" {
@@ -226,7 +232,8 @@ resource "aws_iam_policy" "ecs" {
   name   = "${local.role_name}-ecs"
   policy = data.aws_iam_policy_document.ecs[0].json
 
-  tags = merge({ Name = "${local.role_name}-ecs" }, var.tags)
+  #tags = merge({ Name = "${local.role_name}-ecs" }, var.tags)
+  tags = var.tags
 }
 
 resource "aws_iam_policy_attachment" "ecs" {
@@ -258,7 +265,8 @@ resource "aws_iam_policy" "lambda" {
   name   = "${local.role_name}-lambda"
   policy = data.aws_iam_policy_document.lambda[0].json
 
-  tags = merge({ Name = "${local.role_name}-lambda" }, var.tags)
+  #tags = merge({ Name = "${local.role_name}-lambda" }, var.tags)
+  tags = var.tags
 }
 
 resource "aws_iam_policy_attachment" "lambda" {
