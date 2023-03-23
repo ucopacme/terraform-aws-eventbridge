@@ -3,8 +3,8 @@ locals {
     for index, rule in var.rules :
     merge(rule, {
       "name" = index
-      #"Name" = var.append_rule_postfix ? "${replace(index, "_", "-")}-rule" : index
-      "Name" = var.role_name
+      "Name" = var.append_rule_postfix ? "${replace(index, "_", "-")}-rule" : index
+      #"Name" = var.role_name
     })
   ])
   eventbridge_targets = flatten([
