@@ -214,7 +214,7 @@ resource "aws_cloudwatch_event_permission" "this" {
 
   principal    = compact(split(" ", each.key))[0]
   #statement_id = compact(split(" ", each.key))[1]
-  statement_id = (each.key)[1]
+  statement_id = (each.key
 
   action         = lookup(each.value, "action", null)
   event_bus_name = try(each.value["event_bus_name"], aws_cloudwatch_event_bus.this[0].name, var.bus_name, null)
