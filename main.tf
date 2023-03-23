@@ -3,8 +3,8 @@ locals {
     for index, rule in var.rules :
     merge(rule, {
       "name" = index
-      "Name" = var.append_rule_postfix ? "${replace(index, "_", "-")}-rule" : index
-      #"Name" = var.role_name
+      #"Name" = var.append_rule_postfix ? "${replace(index, "_", "-")}-rule" : index
+      "Name" = var.role_name
     })
   ])
   eventbridge_targets = flatten([
@@ -12,7 +12,8 @@ locals {
       for target in var.targets[index] :
       merge(target, {
         "rule" = index
-        "Name" = var.append_rule_postfix ? "${replace(index, "_", "-")}-rule" : index
+        #"Name" = var.append_rule_postfix ? "${replace(index, "_", "-")}-rule" : index
+        "Name" = var.role_name
       })
     ] if length(var.targets) != 0
   ])
@@ -20,14 +21,16 @@ locals {
     for index, conn in var.connections :
     merge(conn, {
       "name" = index
-      "Name" = var.append_connection_postfix ? "${replace(index, "_", "-")}-connection" : index
+      #"Name" = var.append_connection_postfix ? "${replace(index, "_", "-")}-connection" : index
+      "Name" = var.role_name
     })
   ])
   eventbridge_api_destinations = flatten([
     for index, dest in var.api_destinations :
     merge(dest, {
       "name" = index
-      "Name" = var.append_destination_postfix ? "${replace(index, "_", "-")}-destination" : index
+      #"Name" = var.append_destination_postfix ? "${replace(index, "_", "-")}-destination" : index
+      "Name" = var.role_name
     })
   ])
 }
