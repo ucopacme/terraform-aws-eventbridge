@@ -135,7 +135,11 @@ variable "tags" {
 ######
 # IAM
 ######
-
+variable "pipeline_arn" {
+  description = "pipline arn"
+  type        = string
+  default     = "*"
+}
 variable "role_name" {
   description = "Name of IAM role to use for EventBridge"
   type        = string
