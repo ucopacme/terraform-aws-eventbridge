@@ -30,7 +30,7 @@ module "eventbridge" {
     orders = {
       description   = "Capture all order data"
       event_pattern = jsonencode({ "source" : ["myapp.orders"] })
-      enabled       = true
+      state         = "ENABLED"
     }
   }
 
