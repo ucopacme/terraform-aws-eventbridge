@@ -1,3 +1,5 @@
+data "aws_caller_identity" "this" {}
+
 locals {
   create_role = var.create && var.create_role
 
@@ -22,6 +24,12 @@ data "aws_iam_policy_document" "assume_role" {
     principals {
       type        = "Service"
       identifiers = distinct(concat(["events.amazonaws.com"], var.trusted_entities))
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.this.account_id]
     }
   }
 }
@@ -122,7 +130,6 @@ resource "aws_iam_policy" "kinesis" {
   policy = data.aws_iam_policy_document.kinesis[0].json
 
   tags = merge({ Name = "${local.role_name}-kinesis" }, var.tags)
- 
 }
 
 resource "aws_iam_policy_attachment" "kinesis" {
@@ -191,7 +198,6 @@ resource "aws_iam_policy" "sqs" {
   policy = data.aws_iam_policy_document.sqs[0].json
 
   tags = merge({ Name = "${local.role_name}-sqs" }, var.tags)
-  
 }
 
 resource "aws_iam_policy_attachment" "sqs" {
@@ -264,7 +270,6 @@ resource "aws_iam_policy" "lambda" {
   policy = data.aws_iam_policy_document.lambda[0].json
 
   tags = merge({ Name = "${local.role_name}-lambda" }, var.tags)
-  
 }
 
 resource "aws_iam_policy_attachment" "lambda" {
